@@ -124,37 +124,81 @@
 
     <script>
 
-        async function getWeather() {
+    function getWeatherEmoji(weather) {
 
-            const city =
-                document.getElementById("city").value
+        weather = weather.toLowerCase()
 
-            if(city === "") return
-
-            const response = await fetch(
-                `http://127.0.0.1:8000/weather/${city}`
-            )
-
-            const data = await response.json()
-
-            document.getElementById("weather").innerHTML = `
-
-                <h2>${data.city}</h2>
-
-                <p>🌡 Temperature:
-                ${data.temperature}°C</p>
-
-                <p>☁ Weather:
-                ${data.description}</p>
-
-                <p>💧 Humidity:
-                ${data.humidity}%</p>
-
-            `
+        if (weather.includes("clear")) {
+            return "☀️"
         }
 
-    </script>
+        else if (weather.includes("cloud")) {
+            return "☁️"
+        }
 
+        else if (weather.includes("rain")) {
+            return "🌧️"
+        }
+
+        else if (weather.includes("thunderstorm")) {
+            return "⛈️"
+        }
+
+        else if (weather.includes("snow")) {
+            return "❄️"
+        }
+
+        else if (
+            weather.includes("mist") ||
+            weather.includes("fog")
+        ) {
+            return "🌫️"
+        }
+
+        return "🌍"
+    }
+
+    async function getWeather() {
+
+        const city =
+            document.getElementById("city").value
+
+        if(city === "") return
+
+        const response = await fetch(
+            `http://127.0.0.1:8000/weather/${city}`
+        )
+
+        const data = await response.json()
+
+        const emoji =
+            getWeatherEmoji(data.description)
+
+        document.getElementById("weather").innerHTML = `
+
+            <h2>${data.city}</h2>
+
+            <h1>${emoji}</h1>
+
+            <p>
+                🌡 Temperature:
+                ${data.temperature}°C
+            </p>
+
+            <p>
+                ${emoji} Weather:
+                ${data.description}
+            </p>
+
+            <p>
+                💧 Humidity:
+                ${data.humidity}%
+            </p>
+
+        `
+    }
+
+</script>
 </body>
 
 </html>
