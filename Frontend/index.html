@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Weather App</title>
+
+    <style>
+
+        body {
+
+            margin: 0;
+            padding: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #e0f2fe;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            height: 100vh;
+        }
+
+        .container {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            width: 420px;
+
+            text-align: center;
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+
+            margin-bottom: 20px;
+        }
+
+        input {
+
+            width: 90%;
+
+            padding: 14px;
+
+            font-size: 16px;
+
+            border-radius: 12px;
+
+            border: 1px solid #ccc;
+
+            margin-bottom: 15px;
+        }
+
+        button {
+
+            background: #0284c7;
+
+            color: white;
+
+            border: none;
+
+            padding: 14px 20px;
+
+            border-radius: 12px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+        }
+
+        button:hover {
+
+            opacity: 0.9;
+        }
+
+        #weather {
+
+            margin-top: 25px;
+
+            font-size: 18px;
+
+            line-height: 1.8;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🌤 Weather App</h1>
+
+        <input
+            id="city"
+            type="text"
+            placeholder="Enter city..."
+        >
+
+        <br>
+
+        <button onclick="getWeather()">
+
+            Get Weather
+
+        </button>
+
+        <div id="weather">
+
+        </div>
+
+    </div>
+
+    <script>
+
+        async function getWeather() {
+
+            const city =
+                document.getElementById("city").value
+
+            if(city === "") return
+
+            const response = await fetch(
+                `http://127.0.0.1:8000/weather/${city}`
+            )
+
+            const data = await response.json()
+
+            document.getElementById("weather").innerHTML = `
+
+                <h2>${data.city}</h2>
+
+                <p>🌡 Temperature:
+                ${data.temperature}°C</p>
+
+                <p>☁ Weather:
+                ${data.description}</p>
+
+                <p>💧 Humidity:
+                ${data.humidity}%</p>
+
+            `
+        }
+
+    </script>
+
+</body>
+
+</html>
